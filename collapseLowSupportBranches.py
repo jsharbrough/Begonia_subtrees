@@ -2,11 +2,11 @@ import dendropy
 import sys
 import random
 
-def collapseLowSupportBranches(treeFile):
+def collapseLowSupportBranches(treeFile, minSupport=50):
     tree = dendropy.Tree.get(path=treeFile,schema='newick')
     for e in tree.postorder_edge_iter():
         if e.head_node.label != None:
-            if int(e.head_node.label) < 50:
+            if int(e.head_node.label) < minSupport:
                 e.collapse()
     fileSplit = treeFile.split('.')
     outfile = open(fileSplit[0] + '.collapsed.trees','w')
